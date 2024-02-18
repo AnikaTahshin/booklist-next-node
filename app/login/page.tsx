@@ -1,12 +1,18 @@
 "use client";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken, setUserInfo } from "@/store/globalStore/globalStore";
 const Login = () => {
+  const { token, userInfo } = useSelector((store: any) => store.globalStore);
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  
   const router = useRouter();
   const handleLogin = (e: any) => {
     e.preventDefault();
@@ -18,6 +24,13 @@ const Login = () => {
           localStorage.setItem("email", res.data.user.email);
           localStorage.setItem("name", res.data.user.name);
           localStorage.setItem("id", res.data.user.id);
+          const userInfoData = {
+            id: res.data.user.id,
+            name: res.data.user.name,
+            email: res.data.user.email,
+          };
+          dispatch(setToken(res.data.token));
+          dispatch(setUserInfo(userInfoData));
           router.push("/");
         } else {
           return;
@@ -26,6 +39,13 @@ const Login = () => {
       .catch((err) => console.log(err));
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.push("/");
+    }
+  }, []);
   return (
     <div className="flex justify-center items-center">
       <form

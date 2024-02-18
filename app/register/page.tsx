@@ -28,6 +28,14 @@ const Register = () => {
       .then((err) => console.log(err));
   };
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.push("/");
+    }
+  }, []);
   return (
     <div className="flex justify-center items-center">
       <form

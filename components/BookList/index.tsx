@@ -1,10 +1,13 @@
 "use client"
 import React from "react";
-import { useRouter } from "next/navigation";
+
+import Link from "next/link";
+
 const BookList = ({ data }: any) => {
-  const router = useRouter();
+
+ 
   return (
-    <div onClick={() => router.push(`/details/${data.id}`)} className=" flex flex-col cursor-pointer items-center  p-10 justify-center datas-center ">
+    <div className=" flex flex-col items-center p-10 justify-center datas-center ">
     
       <div className="text-center">
         
@@ -15,8 +18,9 @@ const BookList = ({ data }: any) => {
 
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
         <span className="text-xl text-black font-medium"> Description :  </span>
-         {data?.description}
+         {data?.description?.slice(0,100)}...
         </p>
+        <Link href={`/details/${data.id}`}>Read More</Link>
        
 
        

@@ -1,4 +1,5 @@
 
+import DetailsView from '@/views/DetailsView';
 import React from 'react'
 const BookDetails = async({params}:any) => {
 
@@ -10,11 +11,7 @@ const BookDetails = async({params}:any) => {
 
   
   return (
-    <div>
-
-      <h1>{booklist?.name}</h1>
-      <p>{booklist?.description}</p>
-    </div>
+    <DetailsView booklist={booklist} />
   )
 }
 
