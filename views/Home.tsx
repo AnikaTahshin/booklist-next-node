@@ -13,7 +13,7 @@ const HomeView = ({booklist}:any) => {
       {booklist.map((item: any) => (
         <div
           key={item.id}
-          className=" bg-white border  border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+          className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
         >
           <BookList key={item.id} data={item} />
         </div>

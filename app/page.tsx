@@ -5,9 +5,7 @@ import HomeView from "@/views/Home";
 const Home = async () => {
 
   
-  const res = await fetch("http://localhost:8081/books", {
-    cache: "force-cache",
-  });
+  const res = await fetch("http://localhost:8081/books");
   const data = await res.json();
   const booklist = data.data;
 

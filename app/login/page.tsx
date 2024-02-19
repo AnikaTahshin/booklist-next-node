@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUserInfo } from "@/store/globalStore/globalStore";
+import { createToast } from "@/utils/SweetAlert";
 const Login = () => {
   const { token, userInfo } = useSelector((store: any) => store.globalStore);
   const dispatch = useDispatch();
@@ -12,31 +13,71 @@ const Login = () => {
     password: "",
   });
 
-  
+  const [deviceName, setDeviceName] = useState("");
+
   const router = useRouter();
+
+
   const handleLogin = (e: any) => {
     e.preventDefault();
+
+    const payload = {
+      ...data,
+      deviceName: deviceName,
+    };
+
     axios
-      .post("http://localhost:8081/login", data)
+      .post("http://localhost:8081/login", payload)
       .then((res) => {
         if (res.data.status === 200) {
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("email", res.data.user.email);
           localStorage.setItem("name", res.data.user.name);
           localStorage.setItem("id", res.data.user.id);
+
           const userInfoData = {
             id: res.data.user.id,
             name: res.data.user.name,
             email: res.data.user.email,
           };
+
           dispatch(setToken(res.data.token));
           dispatch(setUserInfo(userInfoData));
+
           router.push("/");
         } else {
           return;
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => 
+
+      createToast(err.response.data.message)
+      // console.log('see errro',err.response.data.message)
+      
+      );
+  };
+
+  const getUA = () => {
+    let device = "Unknown";
+    const ua: any = {
+      "Generic Linux": /Linux/i,
+      Android: /Android/i,
+      BlackBerry: /BlackBerry/i,
+      Bluebird: /EF500/i,
+      "Chrome OS": /CrOS/i,
+      Datalogic: /DL-AXIS/i,
+      Honeywell: /CT50/i,
+      iPad: /iPad/i,
+      iPhone: /iPhone/i,
+      iPod: /iPod/i,
+      macOS: /Macintosh/i,
+      Windows: /IEMobile|Windows/i,
+      Zebra: /TC70|TC55/i,
+    };
+    Object.keys(ua).map(
+      (v) => navigator.userAgent.match(ua[v]) && (device = v)
+    );
+    setDeviceName(device);
   };
 
   useEffect(() => {
@@ -45,7 +86,9 @@ const Login = () => {
     if (token) {
       router.push("/");
     }
+    getUA();
   }, []);
+
   return (
     <div className="flex justify-center items-center">
       <form

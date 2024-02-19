@@ -35,7 +35,7 @@ const Navbar = () => {
           Kabbik
         </Link>
 
-        {!mobileMenu && (
+        {/* {!mobileMenu && (
           <MdOutlineMenu
             onClick={() => setMobileMenu(!mobileMenu)}
             className="md:hidden cursor-pointer"
@@ -50,7 +50,7 @@ const Navbar = () => {
             size={25}
             color="white"
           />
-        )}
+        )} */}
 
         {/* <p className="text-white">Welcome, {userInfo?.name}</p> */}
       </div>

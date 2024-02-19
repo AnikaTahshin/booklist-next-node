@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { Provider } from "react-redux";
 import {store} from '../store/store'
+import HandleInitialState from "@/components/HandleInitialState";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -10,6 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <Provider store={store}>
+      <HandleInitialState />
     <html lang="en">
       <body>
         <Navbar />
@@ -17,6 +19,7 @@ export default function RootLayout({
         {children}
       </body>
     </html>
+   
     </Provider>
   );
 }

@@ -3,6 +3,7 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createToast } from "@/utils/SweetAlert";
 
 const Register = () => {
   const router = useRouter();
@@ -15,19 +16,32 @@ const Register = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8081/register", data)
-      .then((res) => {
-        console.log('first', res)
-        if (res.data.status === 201) {
-          router.push("/login");
-        } else {
-          alert("Error");
-        }
-      })
-      .then((err) => console.log(err));
-  };
+    if (!data.name) {
+      createToast("Name is required");
+      return;
+    } else if (!data.email) {
+      createToast("Email is required");
+      return;
+    } else if (!data.password) {
+      createToast("Password is required");
+      return;
+    } else if (data.password !== data.confirmPassword) {
+      createToast("Password did not matched");
+      return;
+    } else {
+      axios
+        .post("http://localhost:8081/register", data)
+        .then((res) => {
+          console.log("hello res", res);
+          if (res.data.status === 201) {
+            router.push("/login");
+          } 
+        })
+        .catch((err:any) => createToast(err.response.data.message)
 
+        );
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -50,7 +64,6 @@ const Register = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Name"
             onChange={(e) => setData({ ...data, name: e.target.value })}
-            required
           />
         </div>
         <div className="mb-5">
@@ -60,7 +73,6 @@ const Register = () => {
             onChange={(e) => setData({ ...data, email: e.target.value })}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Email"
-            required
           />
         </div>
         <div className="mb-5">
@@ -69,7 +81,6 @@ const Register = () => {
             id="password"
             onChange={(e) => setData({ ...data, password: e.target.value })}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
             placeholder="Password"
           />
         </div>
@@ -81,7 +92,6 @@ const Register = () => {
               setData({ ...data, confirmPassword: e.target.value })
             }
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
             placeholder="Confirm Password"
           />
         </div>

@@ -6,7 +6,8 @@ const initialState = {
       email: '', 
       name: '', 
       id: ''
-    }
+    },
+   
   }
 
 export const globalStore = createSlice({
@@ -19,11 +20,11 @@ export const globalStore = createSlice({
     setUserInfo: (state,action) => {
       state.userInfo = action.payload
     },
-   
+ 
   },
 })
 
 
-export const { setToken, setUserInfo } = globalStore.actions
+export const { setToken, setUserInfo,setDeviceInfo } = globalStore.actions
 
 export default globalStore.reducer
