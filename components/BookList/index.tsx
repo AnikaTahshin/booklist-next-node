@@ -20,7 +20,7 @@ const BookList = ({ data }: any) => {
         <span className="text-xl text-black font-medium"> Description :  </span>
          {data?.description?.slice(0,100)}...
         </p>
-        <Link href={`/details/${data.id}`}>Read More</Link>
+        <Link href={`/details/${data.id}`} className="p-4 bg-slate-500">Read More</Link>
        
 
        

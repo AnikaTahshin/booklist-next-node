@@ -10,9 +10,7 @@ const Home = async () => {
   const booklist = data.data;
 
   return (
-    
       <HomeView booklist={booklist} />
-   
   );
 };
 

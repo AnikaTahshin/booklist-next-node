@@ -13,8 +13,8 @@ const DetailsView = ({ booklist }: any) => {
   }, []);
 
   return (
-    <div>
-      <h1>{booklist?.name}</h1>
+    <div className="flex flex-col justify-center items-center p-10">
+      <h1 className="text-4xl text-black">{booklist?.name}</h1>
       <p>{booklist?.description}</p>
     </div>
   );
